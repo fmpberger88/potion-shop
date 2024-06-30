@@ -7,7 +7,13 @@ const User = require('../models/User');
 const authRoutes = express.Router();
 
 // Register
-authRoutes.post('/register', [
+authRoutes.get('/sign-up', async (req, res) => {
+    res.render('sign-up', {
+        title: 'Sign Up',
+    });
+})
+
+authRoutes.post('/sign-up', [
     body('email', 'Enter a valid email address')
         .isEmail()
         .normalizeEmail(),
@@ -83,7 +89,9 @@ authRoutes.post('/register', [
 
 // Login Route
 authRoutes.get('/log-in', (req, res) => {
-    res.render('login');
+    res.render('login', {
+        title: 'Login'
+    });
 });
 
 authRoutes.post('/log-in', passport.authenticate('local', {

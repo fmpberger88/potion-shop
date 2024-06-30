@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
 const logger = require('morgan');
-const bcrypt = require('bcrypt')
+const errorHandler = require('./middlewares/errorHandler');
 const session = require('express-session');
 const passport = require('./middlewares/passport');
 const { createClient } = require('redis');
@@ -72,20 +72,23 @@ app.use('/', indexRouter);
 app.use('/auth', authRoutes);
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
 // ________________ ErrorHandler ________________
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// CSRF ErrorHandler
+app.use(function (err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  // handle CSRF token errors here
+  res.status(403);
+  res.send('form tampered with');
 });
+
+
+// Custom 404 Middleware
+app.use((req, res, next) => {
+  res.status(404).render('404', { title: '404 - Page Not Found' });
+});
+
+// General Error Handling Middleware
+app.use(errorHandler);
 
 module.exports = app;
