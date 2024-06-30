@@ -11,6 +11,7 @@ const RedisStore = require('connect-redis').default
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
+const authRoutes = require('./routes/authRoutes');
 const usersRouter = require('./routes/users');
 
 // ________________ Database ________________
@@ -68,6 +69,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/', indexRouter);
+app.use('/auth', authRoutes);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
