@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    zip: {
+    zip_code: {
         type: String,
         required: true,
     },
@@ -39,6 +39,17 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     cart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cart' }],
+}, {
+    timestamps: true // Automatically creates createdAt and updatedAt fields
+})
+
+// Virtual for user's fullname
+userSchema.virtual('name').get(function() {
+    let fullname = '';
+    if (this.first_name && this.last_name) {
+        fullname = `${this.last_name}, ${this.first_name}`;
+    }
+    return fullname;
 })
 
 module.exports = mongoose.model('User', userSchema);
