@@ -1,4 +1,4 @@
-const createError = require('http-errors');
+const { engine } = require('express-handlebars');
 const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
@@ -25,6 +25,28 @@ const app = express();
 
 // ________________ View Engine ________________
 app.set('views', path.join(__dirname, 'views'));
+
+app.engine('hbs', engine({
+  extname: 'hbs',
+  defaultLayout: 'layout',
+  layoutsDir: path.join(__dirname, 'views/layouts'),
+  helpers: {
+    formatDate: function (date, format) {
+      const dateFormat = {
+        'fullDate': { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' },
+        'shortDate': { year: 'numeric', month: 'short', day: 'numeric' }
+      };
+      return new Intl.DateTimeFormat('en-US', dateFormat[format] || dateFormat['shortDate']).format(date);
+    }
+  },
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true,
+  }
+}));
+
+
+
 app.set('view engine', 'hbs');
 
 // ________________ Static Files ________________
