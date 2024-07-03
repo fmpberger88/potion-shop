@@ -1,0 +1,14 @@
+<h1>{{product.name}}</h1>
+<p><strong>Category:</strong> {{product.category}}</p>
+<p><strong>Description:</strong> {{product.description}}</p>
+<p><strong>Price:</strong> {{product.price}} USD</p>
+<p><strong>Stock:</strong> {{product.stock}}</p>
+{{#if product.imageUrl}}
+    <p><strong>Image:</strong></p>
+    <img src="{{product.imageUrl}}" alt="{{product.name}}" width="200">
+{{/if}}
+<p>
+    <a href="/products/{{product._id}}/edit">Edit</a> |
+    <a href="/products/{{product._id}}/delete">Delete</a> |
+    <a href="/products">Back to Products</a>
+</p>

@@ -1,0 +1,11 @@
+<h1>Products</h1>
+<a href="/products/create">Create New Product</a>
+<ul>
+    {{#each products}}
+        <li>
+            <a href="/products/{{this._id}}">{{this.name}}</a> - {{this.price}} USD
+            <a href="/products/{{this._id}}/edit">Edit</a>
+            <a href="/products/{{this._id}}/delete">Delete</a>
+        </li>
+    {{/each}}
+</ul>
