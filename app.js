@@ -12,6 +12,9 @@ require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const authRoutes = require('./routes/authRoutes');
+const productRoutes = require('./routes/productRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 const usersRouter = require('./routes/users');
 
 // ________________ Database ________________
@@ -37,6 +40,9 @@ app.engine('hbs', engine({
         'shortDate': { year: 'numeric', month: 'short', day: 'numeric' }
       };
       return new Intl.DateTimeFormat('en-US', dateFormat[format] || dateFormat['shortDate']).format(date);
+    },
+    ifEquals: function(arg1, arg2, options) {
+      return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
     }
   },
   runtimeOptions: {
@@ -90,9 +96,14 @@ app.use((req, res, next) => {
   next();
 });
 
+// ________________ Routes ________________
+
 app.use('/', indexRouter);
 app.use('/auth', authRoutes);
+app.use('/cart', cartRoutes);
+app.use('/orders', orderRoutes);
 app.use('/users', usersRouter);
+app.use('/products', productRoutes);
 
 // ________________ ErrorHandler ________________
 // CSRF ErrorHandler
