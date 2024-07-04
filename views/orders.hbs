@@ -1,0 +1,22 @@
+<h1>Your Orders</h1>
+{{#if orders.length}}
+    <ul>
+        {{#each orders}}
+            <li>
+                <h2>Order #{{@index}}</h2>
+                <p>Status: {{this.status}}</p>
+                <ul>
+                    {{#each this.items}}
+                        <li>
+                            <img src="{{this.product.imageUrl}}" alt="{{this.product.name}}" width="50">
+                            {{this.product.name}} - {{this.quantity}} x {{this.product.price}} USD
+                        </li>
+                    {{/each}}
+                </ul>
+                <p>Total: {{this.total}} USD</p>
+            </li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>You have no orders.</p>
+{{/if}}
