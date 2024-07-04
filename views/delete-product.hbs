@@ -1,0 +1,25 @@
+{{#if errors}}
+    <div style="color: red;">
+        {{#each errors}}
+            <p>{{this}}</p>
+        {{/each}}
+    </div>
+{{/if}}
+<h1>Delete Product</h1>
+<p>Are you sure you want to delete the following product?</p>
+<p><strong>Name:</strong> {{product.name}}</p>
+<p><strong>Category:</strong> {{product.category}}</p>
+<p><strong>Description:</strong> {{product.description}}</p>
+<p><strong>Price:</strong> {{product.price}} USD</p>
+<p><strong>Stock:</strong> {{product.stock}}</p>
+<p><strong>Image:</strong></p>
+{{#if product.imageUrl}}
+    <img src="{{product.imageUrl}}" alt="{{product.name}}" width="200">
+{{else}}
+    <img src="/images/default_image.webp" alt="Default Image" width="200">
+{{/if}}
+<form action="/products/{{product._id}}/delete" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <button type="submit">Yes, delete this product</button>
+    <a href="/products">No, go back</a>
+</form>

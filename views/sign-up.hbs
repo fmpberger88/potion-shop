@@ -6,7 +6,7 @@
         {{/each}}
     </div>
 {{/if}}
-<form action="/auth/register" method="POST">
+<form action="/auth/sign-up" method="POST">
     <label for="first_name">First Name:</label>
     <input type="text" id="first_name" name="first_name" value="{{data.first_name}}" required>
     <br>
@@ -17,7 +17,7 @@
     <input type="text" id="street" name="street" value="{{data.street}}" required>
     <br>
     <label for="zip_code">ZIP Code:</label>
-    <input type="text" id="zip_code" name="zip_code" value="{{data.zip_code}}" required>
+    <input type="number" id="zip_code" name="zip_code" value="{{data.zip_code}}" required>
     <br>
     <label for="city">City:</label>
     <input type="text" id="city" name="city" value="{{data.city}}" required>
@@ -34,6 +34,7 @@
     <label for="confirm_password">Confirm Password:</label>
     <input type="password" id="confirm_password" name="confirm_password" required>
     <br>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">  <!-- CSRF Token hinzugefügt -->
     <button type="submit">Register</button>
 </form>
-<p>Already an account? Please <a href="/auth/log-in">Log-in</a></p>
+<p>Already have an account? Please <a href="/auth/log-in">Log-in</a></p>

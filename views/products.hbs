@@ -1,11 +1,64 @@
-<h1>Products</h1>
-<a href="/products/create">Create New Product</a>
-<ul>
-    {{#each products}}
-        <li>
-            <a href="/products/{{this._id}}">{{this.name}}</a> - {{this.price}} USD
-            <a href="/products/{{this._id}}/edit">Edit</a>
-            <a href="/products/{{this._id}}/delete">Delete</a>
-        </li>
-    {{/each}}
-</ul>
+<div class="gridProductCointainer">
+    <div class="filters">
+        <a class="createProductLink" href="/products/create">Create New Product</a>
+        <h2>Filter Options</h2>
+        <!-- Filter options form can be added here -->
+        <form id="filter" action="/products" method="GET">
+            <div>
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="">All</option>
+                    {{#each allowedCategories}}
+                        <option value="{{this}}" {{#ifEquals this ../filters.category}}selected{{/ifEquals}}>{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div>
+                <label for="minPrice">Min Price:</label>
+                <input type="number" id="minPrice" name="minPrice" value="{{filters.minPrice}}">
+            </div>
+            <div>
+                <label for="maxPrice">Max Price:</label>
+                <input type="number" id="maxPrice" name="maxPrice" value="{{filters.maxPrice}}">
+            </div>
+            <div>
+                <label for="availability">Availability:</label>
+                <select id="availability" name="availability">
+                    <option value="">All</option>
+                    <option value="inStock" {{#ifEquals filters.availability "inStock"}}selected{{/ifEquals}}>In Stock</option>
+                    <option value="outOfStock" {{#ifEquals filters.availability "outOfStock"}}selected{{/ifEquals}}>Out of Stock</option>
+                </select>
+            </div>
+            <div>
+                <button class="filterButtons" type="submit">Apply Filters</button>
+                <button class="resetButton" type="button" onclick="resetFilters()">Reset Filters</button>
+            </div>
+        </form>
+    </div>
+    <div class="products">
+        {{#each products}}
+            <div class="productFeature">
+                {{#if this.imageUrl}}
+                    <img src="{{this.imageUrl}}" alt="{{this.name}}">
+                {{else}}
+                    <img src="/images/default_image.webp" alt="Default Image">
+                {{/if}}
+                <a class="productTitle" href="/products/{{this._id}}">{{this.name}}</a>
+                <p class="productPrice">{{this.price}} USD</p>
+                <div class="actions">
+                    <a href="/products/{{this._id}}/edit">Edit</a>
+                    <a href="/products/{{this._id}}/delete">Delete</a>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>
+<script>
+    function resetFilters() {
+        document.getElementById('category').selectedIndex = 0;
+        document.getElementById('minPrice').value = '';
+        document.getElementById('maxPrice').value = '';
+        document.getElementById('availability').selectedIndex = 0;
+        document.getElementById('filter').submit();
+    }
+</script>
