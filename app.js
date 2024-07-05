@@ -105,7 +105,7 @@ app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
 app.use('/user', usersRouter);
 app.use('/products', productRoutes);
-app.use('password', passwordRoutes);
+app.use('/password', passwordRoutes);
 
 // ________________ ErrorHandler ________________
 // CSRF ErrorHandler
