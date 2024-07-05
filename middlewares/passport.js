@@ -15,6 +15,9 @@ passport.use(new LocalStrategy(
             if (!user) {
                 return done(null, false, { message: 'User not found' });
             }
+            if (!user.isVerified) {
+                return done(null, false, { message: 'Email not verified. Please check your inbox' });
+            }
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return done(null, false, { message: 'Incorrect password' });
