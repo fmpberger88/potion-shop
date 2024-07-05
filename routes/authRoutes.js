@@ -11,14 +11,13 @@ const crypto = require('crypto');
 const authRoutes = express.Router();
 
 // Register
-authRoutes.get('/sign-up', csrfProtection, async (req, res) => {
+authRoutes.get('/sign-up', async (req, res) => {
     res.render('sign-up', {
         title: 'Sign Up',
-        csrfToken: req.csrfToken(),
     });
 })
 
-authRoutes.post('/sign-up', csrfProtection, [
+authRoutes.post('/sign-up', [
     body('email', 'Enter a valid email address')
         .isEmail()
         .normalizeEmail(),
@@ -63,7 +62,6 @@ authRoutes.post('/sign-up', csrfProtection, [
             title: 'Sign Up',
             errors: formattedErrors,
             data: req.body, // Send back the input data so the user doesn't need to re-enter it
-            csrfToken: req.csrfToken(),
         });
     }
 
@@ -102,7 +100,7 @@ authRoutes.post('/sign-up', csrfProtection, [
 });
 
 // Email verification
-authRouter.get('/verify-email', async (req, res, next) => {
+authRoutes.get('/verify-email', async (req, res, next) => {
     try {
         const user = await User.findOne({ verificationToken: req.query.token });
         if (!user) {
@@ -111,7 +109,7 @@ authRouter.get('/verify-email', async (req, res, next) => {
         user.isVerified = true;
         user.verificationToken = undefined; // Clear the verification token
         await user.save();
-        res.redirect('/login');
+        res.redirect('/auth/log-in');
     } catch (err) {
         next(err);
     }
@@ -124,10 +122,25 @@ authRoutes.get('/log-in', (req, res) => {
     });
 });
 
-authRoutes.post('/log-in', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/auth/login',
-}));
+authRoutes.post('/log-in', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.status(400).render('login', {
+                title: 'Login',
+                errors: { message: info.message },
+            });
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            return res.redirect('/');
+        });
+    })(req, res, next);
+});
 
 // Logout Route
 authRoutes.get('/log-out', (req, res, next) => {
