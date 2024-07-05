@@ -46,6 +46,14 @@ const userSchema = new mongoose.Schema({
     verificationToken: {
         type: String,
         default: () => crypto.randomBytes(16).toString('hex')
+    },
+    resetPasswordToken: {
+        type: String,
+        default: null
+    },
+    resetPasswordExpires: {
+        type: Date,
+        default: null
     }
 }, {
     timestamps: true // Automatically creates createdAt and updatedAt fields

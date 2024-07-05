@@ -16,6 +16,7 @@ const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const usersRouter = require('./routes/users');
+const passwordRoutes = require('./routes/passwordRoutes');
 
 // ________________ Database ________________
 require('./db/mongoDB');
@@ -104,6 +105,7 @@ app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
 app.use('/user', usersRouter);
 app.use('/products', productRoutes);
+app.use('password', passwordRoutes);
 
 // ________________ ErrorHandler ________________
 // CSRF ErrorHandler
