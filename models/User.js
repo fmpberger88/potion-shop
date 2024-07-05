@@ -39,6 +39,14 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     cart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cart' }],
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    verificationToken: {
+        type: String,
+        default: () => crypto.randomBytes(16).toString('hex')
+    }
 }, {
     timestamps: true // Automatically creates createdAt and updatedAt fields
 })

@@ -5,6 +5,8 @@ const passport = require('../middlewares/passport');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: false })
 const User = require('../models/User');
+const sendEmail = require('../utils/mailer');
+const crypto = require('crypto');
 
 const authRoutes = express.Router();
 
@@ -86,10 +88,32 @@ authRoutes.post('/sign-up', csrfProtection, [
             city: req.body.city,
             country: req.body.country,
         });
+
         await user.save();
+
+        // Send verification email
+        const verificationLink = `http://${req.headers.host}/auth/verify-email?token=${user.verificationToken}`;
+        await sendEmail(user.email, 'Email Verification', `Please verify your email by clicking <a href="${verificationLink}">here</a>.`);
+
         res.redirect('/auth/log-in');
     } catch (err) {
         return next(err);
+    }
+});
+
+// Email verification
+authRouter.get('/verify-email', async (req, res, next) => {
+    try {
+        const user = await User.findOne({ verificationToken: req.query.token });
+        if (!user) {
+            return res.status(400).render('error', { message: 'Invalid verification token' });
+        }
+        user.isVerified = true;
+        user.verificationToken = undefined; // Clear the verification token
+        await user.save();
+        res.redirect('/login');
+    } catch (err) {
+        next(err);
     }
 });
 
