@@ -4,6 +4,7 @@ const Product = require('../models/Product');
 const isAdmin = require('../middlewares/isAdmin');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: false })
+const upload = require('../middlewares/imageLoader');
 
 const productRouter = express.Router();
 // Allowed Categories
@@ -49,12 +50,12 @@ productRouter.get('/', csrfProtection, async (req, res, next) => {
 
 
 // Create a new product (Form)
-productRouter.get('/create', isAdmin, csrfProtection, async (req, res, next) => {
-    res.render('create-product', { title: 'Create Product', csrfToken: req.csrfToken(), allowedCategories: allowedCategories });
+productRouter.get('/create', isAdmin, async (req, res, next) => {
+    res.render('create-product', { title: 'Create Product', allowedCategories: allowedCategories });
 });
 
 // Create a new product (Submission)
-productRouter.post('/create', isAdmin, csrfProtection, [
+productRouter.post('/create', isAdmin, upload.single('image'), [
     body('name', 'Product name is required')
         .trim()
         .isLength({ min: 1 })
@@ -87,12 +88,12 @@ productRouter.post('/create', isAdmin, csrfProtection, [
             title: 'Create Product',
             errors: formattedErrors,
             data: req.body, // Send back the input data so the user doesn't need to re-enter it
-            csrfToken: req.csrfToken(),
             allowedCategories: allowedCategories
         });
     }
 
-    const { name, category, description, price, stock, imageUrl } = req.body;
+    const { name, category, description, price, stock } = req.body;
+    const imageUrl = req.file ? req.file.path : null;
     try {
         const newProduct = new Product({
             name,
@@ -131,7 +132,7 @@ productRouter.get('/:id/edit', isAdmin, csrfProtection, async (req, res, next) =
 })
 
 // Update a product by ID (Submission)
-productRouter.post('/:id/edit', [
+productRouter.post('/:id/edit', upload.single('image'), [
     body('name', 'Product name is required')
         .trim()
         .isLength({ min: 1 })
@@ -169,7 +170,9 @@ productRouter.post('/:id/edit', [
         });
     }
 
-    const { name, category, description, price, stock, imageUrl } = req.body;
+    const { name, category, description, price, stock } = req.body;
+    const imageUrl = req.file ? req.file.path : null;
+    console.log('Image URL:', imageUrl);
     try {
         const product = await Product.findById(req.params.id);
         if (!product) {

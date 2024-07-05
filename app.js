@@ -63,7 +63,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(helmet());
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'"], // Erlauben Sie Skripte von vertrauenswürdigen Quellen wie TinyMCE CDN
+    styleSrc: ["'self'", "'unsafe-inline'"], // Unsichere Inline-Stile erlauben
+    imgSrc: ["'self'", "data:", "https://res.cloudinary.com"], // Bildquellen
+    connectSrc: ["'self'", "https://api.tinymce.com"], // API-Verbindungen
+    frameSrc: ["'none'"], // Verhindern Sie das Einbetten von Inhalten in Frames
+    objectSrc: ["'none'"], // Verhindern Sie die Verwendung von <object>, <embed>, <applet>
+    upgradeInsecureRequests: [], // Automatische HTTPS-Nutzung
+  },
+}));
 
 // ________________ Redis Store ________________
 // Initialize client.

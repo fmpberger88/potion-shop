@@ -6,7 +6,7 @@
         {{/each}}
     </div>
 {{/if}}
-<form  action="/products/create" method="POST">
+<form  action="/products/create" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" value="{{product.name}}" required>
@@ -27,8 +27,8 @@
     <label for="stock">Stock:</label>
     <input type="number" id="stock" name="stock" value="{{product.stock}}" required>
     <br>
-    <label for="imageUrl">Image URL:</label>
-    <input type="url" id="imageUrl" name="imageUrl" value="{{product.imageUrl}}">
+    <label for="image">Image:</label>
+    <input type="file" id="image" name="image">
     <br>
     <button type="submit">Create Product</button>
     <a href="/products">Cancel</a>
