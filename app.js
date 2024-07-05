@@ -102,7 +102,7 @@ app.use('/', indexRouter);
 app.use('/auth', authRoutes);
 app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
-app.use('/users', usersRouter);
+app.use('/user', usersRouter);
 app.use('/products', productRoutes);
 
 // ________________ ErrorHandler ________________

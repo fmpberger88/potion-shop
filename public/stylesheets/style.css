@@ -1,8 +1,360 @@
+:root {
+  --font-family: "Century Gothic", sans-serif;
+  --background-color: #41403C;
+  --link-color: #EDEFEE;
+  --link-hover-color: #AA210F;
+  --header-background-color: #333;
+  --header-text-color: #AA210F;
+  --nav-background-color: #333;
+  --nav-text-color: #EDEFEE;
+  --feature-background-color: #EDEFEE;
+  --feature-box-shadow: rgba(0, 0, 0, 0.1);
+  --button-background-color: #AA210F;
+  --button-hover-background-color: #D08856;
+  --button-text-color: #EDEFEE;
+  --button-hover-text-color: black;
+  --footer-background-color: #333;
+  --footer-text-color: #EDEFEE;
+}
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: var(--font-family);
+  background: var(--background-color);
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  font-size: 1.2rem;
 }
 
 a {
-  color: #00B7FF;
+  text-decoration: none;
+  font-weight: bold;
+  color: var(--link-color);
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--link-hover-color);
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--header-background-color);
+  color: var(--header-text-color);
+  padding: 4rem 0;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  background: var(--nav-background-color);
+  color: var(--nav-text-color);
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 60%;
+  gap: 2rem;
+}
+
+nav a, nav span {
+  color: var(--link-color);
+  font-size: 2.5rem;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: "Arial Black", sans-serif;
+  margin: 0 1rem;
+}
+
+nav a:hover {
+  color: var(--link-hover-color);
+}
+
+nav a:visited {
+  color: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.hero {
+  position: relative;
+  background: url('/images/hero_image.webp') no-repeat center center/cover;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  width: 70%;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.hero h1,
+.hero p,
+.hero a {
+  position: relative;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 4em;
+  margin: 0;
+}
+
+.hero p {
+  font-size: 1.5em;
+}
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 20px 0;
+  gap: 1rem;
+}
+
+.feature {
+  background: var(--feature-background-color);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--feature-box-shadow);
+  width: 25%;
+  text-align: center;
+}
+
+.feature img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.gridProductCointainer {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 1.2rem;
+  width: 80%;
+}
+
+.createProductLink {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.createProductLink:hover {
+  background-color: var(--button-hover-background-color);
+  color: var(--button-hover-text-color);
+}
+
+#filter {
+  width: 100%;
+}
+
+.filters {
+  background: var(--feature-background-color);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--feature-box-shadow);
+}
+
+.filters div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.filters div select {
+  font-family: var(--font-family);
+  font-size: 1rem;
+  padding: 8px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid var(--link-color);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.filters div input {
+  font-family: var(--font-family);
+  font-size: 1rem;
+  padding: 8px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid var(--link-color);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.filterButtons, .resetButton {
+  background-color: var(--button-background-color);
+  border: none;
+  border-radius: 5px;
+  color: var(--button-text-color);
+  cursor: pointer;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+}
+
+.filterButtons:hover, .resetButton:hover {
+  background-color: var(--button-hover-background-color);
+  color: var(--button-hover-text-color);
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-around;
+}
+
+.productFeature {
+  background: var(--feature-background-color);
+  box-shadow: 0 4px 8px var(--feature-box-shadow);
+  display: flex;
+  flex-direction: column;
+  height: 20rem;
+  text-align: center;
+  width: 20rem;
+}
+
+.productTitle {
+  color: black;
+  font-size: 1.1em;
+  margin-top: 1rem;
+}
+
+.productPrice {
+  font-size: 0.9rem;
+}
+
+.productFeature img {
+  height: auto;
+  max-width: 100%;
+}
+
+.productDetailsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.cartForm {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.footer {
+  background: var(--footer-background-color);
+  color: var(--footer-text-color);
+  text-align: center;
+  padding: 1rem 0;
+  margin: 150px 3rem 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 20%;
+  margin-bottom: 20px;
+}
+
+form label {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+form input {
+  border-radius: 10px;
+  padding: 5px;
+}
+
+form button {
+  background: var(--button-background-color);
+  border: none;
+  color: var(--button-text-color);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 1rem 2rem;
+}
+
+@media screen and (max-width: 800px) {
+  .feature {
+    width: 100%;
+  }
+  form {
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .hero {
+    width: 100%;
+  }
+  .feature {
+    width: 100%;
+  }
+
+  .gridProductCointainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .filters div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  form {
+    width: 70%;
+  }
+
+  form input {
+    padding: 10px;
+  }
 }

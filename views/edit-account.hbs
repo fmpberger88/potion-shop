@@ -1,0 +1,27 @@
+ <h1>Edit Account</h1>
+    {{#if errors}}
+        <div style="color: red;">
+            {{#each errors}}
+                <p>{{this.msg}}</p>
+            {{/each}}
+        </div>
+    {{/if}}
+    <form action="/user/edit" method="POST">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" value="{{user.first_name}}" required>
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" value="{{user.last_name}}" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{user.email}}" required>
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" value="{{user.street}}" required>
+        <label for="zip_code">Zip Code:</label>
+        <input type="text" id="zip_code" name="zip_code" value="{{user.zip_code}}" required>
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" value="{{user.city}}" required>
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" value="{{user.country}}" required>
+        <button type="submit">Save Changes</button>
+    </form>
+    <a href="/user">Cancel</a>

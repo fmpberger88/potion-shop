@@ -2,18 +2,21 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const passport = require('../middlewares/passport');
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: false })
 const User = require('../models/User');
 
 const authRoutes = express.Router();
 
 // Register
-authRoutes.get('/sign-up', async (req, res) => {
+authRoutes.get('/sign-up', csrfProtection, async (req, res) => {
     res.render('sign-up', {
         title: 'Sign Up',
+        csrfToken: req.csrfToken(),
     });
 })
 
-authRoutes.post('/sign-up', [
+authRoutes.post('/sign-up', csrfProtection, [
     body('email', 'Enter a valid email address')
         .isEmail()
         .normalizeEmail(),
@@ -52,10 +55,13 @@ authRoutes.post('/sign-up', [
             acc[error.param] = error.msg;
             return acc;
         }, {});
+
+        // Render the form with error messages and input data
         return res.status(400).render('sign-up', {
             title: 'Sign Up',
             errors: formattedErrors,
             data: req.body, // Send back the input data so the user doesn't need to re-enter it
+            csrfToken: req.csrfToken(),
         });
     }
 
@@ -76,12 +82,12 @@ authRoutes.post('/sign-up', [
             first_name: req.body.first_name,
             last_name: req.body.last_name,
             street: req.body.street,
-            zip: req.body.zip_code,
+            zip_code: req.body.zip_code,
             city: req.body.city,
             country: req.body.country,
         });
         await user.save();
-        res.redirect('/login');
+        res.redirect('/auth/log-in');
     } catch (err) {
         return next(err);
     }
@@ -96,7 +102,7 @@ authRoutes.get('/log-in', (req, res) => {
 
 authRoutes.post('/log-in', passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/log-in',
+    failureRedirect: '/auth/login',
 }));
 
 // Logout Route
