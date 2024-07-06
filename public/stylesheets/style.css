@@ -142,8 +142,9 @@ nav a:visited {
 }
 
 .feature img {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
   border-radius: 8px;
 }
 
