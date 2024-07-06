@@ -109,6 +109,16 @@ app.use((req, res, next) => {
   next();
 });
 
+// ________________ User Middleware ________________
+app.use((req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.locals.user = req.user;
+    res.locals.isAdmin = req.user.isAdmin;
+  }
+  next();
+})
+
+
 // ________________ Routes ________________
 
 app.use('/', indexRouter);
