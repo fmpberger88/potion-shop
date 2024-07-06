@@ -1,6 +1,8 @@
 <div class="gridProductCointainer">
     <div class="filters">
-        <a class="createProductLink" href="/products/create">Create New Product</a>
+        {{#if isAdmin}}
+            <a class="createProductLink" href="/products/create">Create New Product</a>
+        {{/if}}
         <h2>Filter Options</h2>
         <!-- Filter options form can be added here -->
         <form id="filter" action="/products" method="GET">
