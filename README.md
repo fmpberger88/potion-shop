@@ -13,6 +13,7 @@ A comprehensive application for bouldering enthusiasts built with Node.js, Expre
 - 📧 Email verification for new users.
 - 🔄 Password reset functionality for users.
 - 🛍️ Users can place orders for products in their cart.
+- ☁️ Image upload and storage using Cloudinary.
 
 ## 🛠️ Getting Started
 
@@ -21,6 +22,7 @@ A comprehensive application for bouldering enthusiasts built with Node.js, Expre
 - 🟢 Node.js and npm installed.
 - 🟠 MongoDB installed and running locally or use a MongoDB Atlas account.
 - 🔵 Redis installed and running locally or use Redis on cloud.
+- ☁️ Cloudinary account for image storage.
 
 ### Installation
 
@@ -46,6 +48,10 @@ A comprehensive application for bouldering enthusiasts built with Node.js, Expre
     EMAIL_PORT=YourEmailPort
     EMAIL_USER=YourEmailUser
     EMAIL_PASS=YourEmailPassword
+    CLOUDINARY_CLOUD_NAME=YourCloudinaryCloudName
+    CLOUDINARY_API_KEY=YourCloudinaryApiKey
+    CLOUDINARY_API_SECRET=YourCloudinaryApiSecret
+    CLOUDINARY_URL=YourCloudinaryUrl
     ```
 
 4. 🚀 Start the application:
@@ -77,6 +83,7 @@ A comprehensive application for bouldering enthusiasts built with Node.js, Expre
 - [dotenv](https://github.com/motdotla/dotenv) - Loads environment variables from a `.env` file.
 - [passport](http://www.passportjs.org/) - Simple, unobtrusive authentication for Node.js.
 - [bcrypt](https://www.npmjs.com/package/bcrypt) - A library to help you hash passwords.
+- [cloudinary](https://cloudinary.com/) - Cloud-based image and video management services.
 
 ## License
 
