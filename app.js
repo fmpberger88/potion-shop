@@ -67,8 +67,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
-    scriptSrc: ["'self'"], // Erlauben Sie Skripte von vertrauenswürdigen Quellen wie TinyMCE CDN
-    styleSrc: ["'self'", "'unsafe-inline'"], // Unsichere Inline-Stile erlauben
+    scriptSrc: ["'self'", 'https://cdnjs.cloudflare.com'], // Erlauben Sie Skripte von vertrauenswürdigen Quellen wie TinyMCE CDN
+    fontSrc: ["'self'", 'https://cdnjs.cloudflare.com'],
+    styleSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'], // Unsichere Inline-Stile erlauben
     imgSrc: ["'self'", "data:", "https://res.cloudinary.com"], // Bildquellen
     connectSrc: ["'self'", "https://api.tinymce.com"], // API-Verbindungen
     frameSrc: ["'none'"], // Verhindern Sie das Einbetten von Inhalten in Frames

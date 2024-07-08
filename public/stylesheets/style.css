@@ -1,7 +1,7 @@
 :root {
   --font-family: "Century Gothic", sans-serif;
   --background-color: #F2FBFF;
-  --link-color: black;
+  --link-color: #333;
   --link-hover-color: black;
   --header-background-color: #C9EFFF;
   --header-text-color: #AA210F;
@@ -67,6 +67,10 @@ nav a, nav span {
   font-weight: bold;
   font-family: "Arial Black", sans-serif;
   margin: 0 1rem;
+}
+
+nav a i {
+  margin-right: 5px;
 }
 
 nav a:hover {
@@ -492,6 +496,10 @@ aside a {
   nav div {
     display: flex;
     flex-direction: column;
+  }
+
+  nav a i {
+    margin-right: 2rem;
   }
 
   .accountContainer, .formContainer {
