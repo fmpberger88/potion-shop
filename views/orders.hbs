@@ -1,22 +1,22 @@
 <h1>Your Orders</h1>
 {{#if orders.length}}
-    <ul>
+    <div class="cartList">
         {{#each orders}}
-            <li>
+            <div class="cartItem">
                 <h2>Order #{{@index}}</h2>
                 <p>Status: {{this.status}}</p>
-                <ul>
+                <ul class="cartList">
                     {{#each this.items}}
-                        <li>
+                        <div class="cartItem">
                             <img src="{{this.product.imageUrl}}" alt="{{this.product.name}}" width="50">
                             {{this.product.name}} - {{this.quantity}} x {{this.product.price}} USD
-                        </li>
+                        </div>
                     {{/each}}
                 </ul>
-                <p>Total: {{this.total}} USD</p>
-            </li>
+                <p><strong>Total: {{this.total}} USD</strong></p>
+            </div>
         {{/each}}
-    </ul>
+    </div>
 {{else}}
     <p>You have no orders.</p>
 {{/if}}

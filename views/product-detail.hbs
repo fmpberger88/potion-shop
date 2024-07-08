@@ -6,14 +6,14 @@
     </div>
 {{/if}}
 <section class="productDetailsContainer">
-    <div>
+    <div class="productDetailImage">
         {{#if product.imageUrl}}
             <img src="{{product.imageUrl}}" alt="{{product.name}}" width="600">
         {{else}}
             <img src="/images/default_image.webp" alt="Default Image" width="600">
         {{/if}}
     </div>
-    <div>
+    <div class="productDetailDescription">
         <h1>{{product.name}}</h1>
         <p><strong>Category:</strong> {{product.category}}</p>
         <p>{{product.description}}</p>
@@ -23,12 +23,14 @@
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{product.stock}}" required>
-            <button type="submit">Add to Cart</button>
+            <button class="addButton" type="submit">Add to Cart</button>
         </form>
     </div>
 </section>
 <aside>
-    <a href="/products/{{product._id}}/edit">Edit</a> |
-    <a href="/products/{{product._id}}/delete">Delete</a> |
+    {{#if isAdmin}}
+        <a href="/products/{{product._id}}/edit">Edit</a>
+        <a href="/products/{{product._id}}/delete">Delete</a>
+    {{/if}}
     <a href="/products">Back to Products</a>
 </aside>

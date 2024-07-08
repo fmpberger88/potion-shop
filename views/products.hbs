@@ -33,34 +33,25 @@
             </div>
             <div>
                 <button class="filterButtons" type="submit">Apply Filters</button>
-                <button class="resetButton" type="button" onclick="resetFilters()">Reset Filters</button>
+                <a class="resetButton" href="/products">Reset Filters</a>
             </div>
         </form>
     </div>
     <div class="products">
         {{#each products}}
-            <div class="productFeature">
-                {{#if this.imageUrl}}
-                    <img src="{{this.imageUrl}}" alt="{{this.name}}">
-                {{else}}
-                    <img src="/images/default_image.webp" alt="Default Image">
-                {{/if}}
-                <a class="productTitle" href="/products/{{this._id}}">{{this.name}}</a>
-                <p class="productPrice">{{this.price}} USD</p>
-                <div class="actions">
-                    <a href="/products/{{this._id}}/edit">Edit</a>
-                    <a href="/products/{{this._id}}/delete">Delete</a>
+            <a class="productFeatureLink" href="/products/{{this._id}}">
+                <div class="productFeature">
+                    {{#if this.imageUrl}}
+                        <img src="{{this.imageUrl}}" alt="{{this.name}}">
+                    {{else}}
+                        <img src="/images/default_image.webp" alt="Default Image">
+                    {{/if}}
+                    <div class="productInfo">
+                        <h3 class="productTitle">{{this.name}}</h3>
+                        <p class="productPrice">{{this.price}} USD</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         {{/each}}
     </div>
 </div>
-<script>
-    function resetFilters() {
-        document.getElementById('category').selectedIndex = 0;
-        document.getElementById('minPrice').value = '';
-        document.getElementById('maxPrice').value = '';
-        document.getElementById('availability').selectedIndex = 0;
-        document.getElementById('filter').submit();
-    }
-</script>

@@ -1,20 +1,23 @@
 <h1>Your Cart</h1>
 {{#if cart}}
-    <ul>
+    <div class="cartList">
         {{#each cart.items}}
-            <li>
-                <img src="{{this.product.imageUrl}}" alt="{{this.product.name}}" width="50">
-                {{this.product.name}} - {{this.quantity}} x {{this.product.price}} USD
-                <form action="/cart/remove/{{this.product._id}}" method="POST" style="display:inline;">
+            <div class="cartItem">
+                <img src="{{this.product.imageUrl}}" alt="{{this.product.name}}" width="150">
+                <p><strong>{{this.product.name}}:</strong> {{this.quantity}} x {{this.product.price}} USD</p>
+                <form class="cartForm" action="/cart/remove/{{this.product._id}}" method="POST" style="display:inline;">
                     <input type="hidden" name="_csrf" value="{{../csrfToken}}">
-                    <button type="submit">Remove</button>
+                    <button class="cartRemoveButton" type="submit">Remove</button>
                 </form>
-            </li>
+            </div>
         {{/each}}
-    </ul>
+    </div>
+    <div>
+        <h2>Total Cost: {{totalCost}}</h2>
+    </div>
     <form action="/orders/place" method="POST">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button type="submit">Place Order</button>
+        <button style="margin-top: 2rem" type="submit">Place Order</button>
     </form>
 {{else}}
     <p>Your cart is empty.</p>

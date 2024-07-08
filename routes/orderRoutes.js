@@ -13,6 +13,7 @@ orderRouter.get('/', ensureAuthenticated, csrfProtection, async (req, res, next)
     try {
         const orders = await Order.find({ user: req.user._id }).populate('items.product');
         res.render('orders', {
+            title: "Orders",
             orders: orders,
             csrfToken: req.csrfToken(),
         });
@@ -25,8 +26,8 @@ orderRouter.get('/', ensureAuthenticated, csrfProtection, async (req, res, next)
 orderRouter.post('/place', ensureAuthenticated, csrfProtection, async (req, res, next) => {
     try {
         const cart = await Cart.findOne({ user: req.user._id }).populate('items.product');
-        if (!cart) {
-            return res.status(404).render('error', { message: 'Cart not found' });
+        if (!cart || cart.items.length < 1) {
+            return res.status(404).render('error', { message: 'Cart not found or empty' });
         }
 
         // Check stock and calculate total

@@ -1,40 +1,42 @@
-<h1>Sign Up</h1>
-{{#if errors}}
-    <div style="color: red;">
-        {{#each errors}}
-            <p>{{this}}</p>
-        {{/each}}
-    </div>
-{{/if}}
-<form action="/auth/sign-up" method="POST">
-    <label for="first_name">First Name:</label>
-    <input type="text" id="first_name" name="first_name" value="{{data.first_name}}" required>
-    <br>
-    <label for="last_name">Last Name:</label>
-    <input type="text" id="last_name" name="last_name" value="{{data.last_name}}" required>
-    <br>
-    <label for="street">Street:</label>
-    <input type="text" id="street" name="street" value="{{data.street}}" required>
-    <br>
-    <label for="zip_code">ZIP Code:</label>
-    <input type="number" id="zip_code" name="zip_code" value="{{data.zip_code}}" required>
-    <br>
-    <label for="city">City:</label>
-    <input type="text" id="city" name="city" value="{{data.city}}" required>
-    <br>
-    <label for="country">Country:</label>
-    <input type="text" id="country" name="country" value="{{data.country}}" required>
-    <br>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" value="{{data.email}}" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <label for="confirm_password">Confirm Password:</label>
-    <input type="password" id="confirm_password" name="confirm_password" required>
-    <br>
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">  <!-- CSRF Token hinzugefügt -->
-    <button type="submit">Register</button>
-</form>
-<p>Already have an account? Please <a href="/auth/log-in">Log-in</a></p>
+<div class="formContainer">
+    <h1 style="text-align: center">{{title}}</h1>
+    {{#if errors}}
+        <div style="color: red;">
+            {{#each errors}}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    {{/if}}
+    <form action="/auth/sign-up" method="POST">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" value="{{data.first_name}}" required>
+        <br>
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" value="{{data.last_name}}" required>
+        <br>
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" value="{{data.street}}" required>
+        <br>
+        <label for="zip_code">ZIP Code:</label>
+        <input type="number" id="zip_code" name="zip_code" value="{{data.zip_code}}" required>
+        <br>
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" value="{{data.city}}" required>
+        <br>
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" value="{{data.country}}" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{data.email}}" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+        <br>
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">  <!-- CSRF Token hinzugefügt -->
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? Please <a href="/auth/log-in">Log-in</a></p>
+</div>

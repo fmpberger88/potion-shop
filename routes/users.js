@@ -5,9 +5,6 @@ const userRouter = express.Router();
 const User = require('../models/User');
 const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 const csrf = require('csurf');
-const req = require("express/lib/request");
-const user = require("debug");
-const res = require("express/lib/response");
 const csrfProtection = csrf({ cookie: false });
 
 // GET user account
@@ -18,6 +15,7 @@ userRouter.get('/', ensureAuthenticated, csrfProtection, async (req, res, next) 
       return res.render('error', { message: 'User does not exist' });
     }
     res.render('account', {
+      title: "My Account",
       user: user,
       csrfToken: req.csrfToken()
     })
@@ -34,6 +32,7 @@ userRouter.get('/edit', ensureAuthenticated, csrfProtection, async (req, res, ne
       return res.render('error', { message: 'User does not exist' });
     }
     res.render('edit-account', {
+      title: "Edit Account",
       user: user,
       csrfToken: req.csrfToken()
     });
@@ -55,6 +54,7 @@ userRouter.post('/edit', ensureAuthenticated, csrfProtection, [
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.render('edit-account', {
+      title: "Edit Account",
       user: req.user,
       csrfToken: req.csrfToken(),
       errors: errors.array()
@@ -85,8 +85,9 @@ userRouter.post('/edit', ensureAuthenticated, csrfProtection, [
 });
 
 // GET update password
-userRouter.get('/edit-password', ensureAuthenticated, csrfProtection, async (req, res, next) => {
+userRouter.get('/edit-password', ensureAuthenticated, csrfProtection, async (req, res) => {
   res.render('edit-password', {
+    title: "Change Password",
     csrfToken: req.csrfToken(),
   })
 });
@@ -105,6 +106,7 @@ userRouter.post('/edit-password', ensureAuthenticated, csrfProtection, [
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.render('edit-password', {
+      title: "Change Password",
       csrfToken: req.csrfToken(),
       errors: errors.array()
     });
@@ -119,6 +121,7 @@ userRouter.post('/edit-password', ensureAuthenticated, csrfProtection, [
     const isMatch = await bcrypt.compare(req.body.current_password, user.password);
     if (!isMatch) {
       return res.render('edit-password', {
+        title: "Change Password",
         csrfToken: req.csrfToken(),
         errors: [{ msg: 'Current password is incorrect'}]
       });

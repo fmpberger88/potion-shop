@@ -11,8 +11,21 @@ const cartRouter = express.Router();
 cartRouter.get('/', ensureAuthenticated, csrfProtection, async (req, res, next) => {
     try {
         const cart = await Cart.findOne({ user: req.user._id }).populate('items.product');
+
+        if (!cart) {
+            return res.render('cart', {
+                title: 'Cart',
+                cart: cart,
+                csrfToken: req.csrfToken(),
+            })
+        }
+        const totalCost = cart.items.reduce((total, item) => {
+            return total + item.quantity * item.product.price;
+        }, 0)
         res.render('cart', {
+            title: 'cart',
             cart: cart,
+            totalCost: totalCost.toFixed(2),
             csrfToken: req.csrfToken(),
         });
     } catch (err) {

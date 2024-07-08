@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{title}}</title>
+    <title>Potion Shop | {{title}}</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
@@ -25,6 +25,8 @@
             </div>
         </nav>
 </header>
+<!-- Plus button for mobile view -->
+<button class="plus-btn">+</button>
 
 <main class="container">
     {{{body}}}
@@ -33,5 +35,28 @@
 <footer class="footer">
     <p>&copy; 2024 {{title}}. All rights reserved.</p>
 </footer>
+
+<!-- Modal -->
+<div class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <nav>
+            <a href="/products">Products</a>
+            {{#unless user}}
+                <a href="/auth/log-in">Login</a>
+                <a href="/auth/sign-up">Sign Up</a>
+            {{else}}
+                <a href="/cart">Cart</a>
+                <a href="/orders">Orders</a>
+                <a href="/user">Account</a>
+                <a href="/auth/log-out">Logout</a>
+            {{/unless}}
+            </div>
+        </nav>
+    </div>
+</div>
+
+<script src="/javascripts/responsiveHeader.js" defer></script>
+<script src="/javascripts/showImageFile.js" defer></script>
 </body>
 </html>
