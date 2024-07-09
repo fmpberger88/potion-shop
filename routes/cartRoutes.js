@@ -4,6 +4,7 @@ const Product = require('../models/Product');
 const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: false });
+const redisClient = require('../db/redisClient');
 
 const cartRouter = express.Router();
 
@@ -36,8 +37,6 @@ cartRouter.get('/', ensureAuthenticated, csrfProtection, async (req, res, next) 
 // Add to Cart
 cartRouter.post('/add/:productId', ensureAuthenticated, csrfProtection, async (req, res, next) => {
     try {
-
-
         const product = await Product.findById(req.params.productId);
         if (!product) {
             return res.status(404).render('error', { message: 'Product not found' });
@@ -59,6 +58,12 @@ cartRouter.post('/add/:productId', ensureAuthenticated, csrfProtection, async (r
         }
 
         await cart.save();
+
+        // Update Redis cache
+        const userId = req.user._id.toString();
+        const cacheKey = `cartItemCount:${userId}`;
+        await redisClient.set(cacheKey, cart.items.length, { EX: 3600 });
+
         res.redirect('/cart');
     } catch (err) {
         next(err);
@@ -75,6 +80,12 @@ cartRouter.post('/remove/:productId', ensureAuthenticated, csrfProtection, async
 
         cart.items = cart.items.filter(item => !item.product.equals(req.params.productId));
         await cart.save();
+
+        // Update Redis cache
+        const userId = req.user._id.toString();
+        const cacheKey = `cartItemCount:${userId}`;
+        await redisClient.set(cacheKey, cart.items.length, { EX: 3600 });
+
         res.redirect('/cart');
     } catch (err) {
         next(err);

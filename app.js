@@ -6,9 +6,11 @@ const logger = require('morgan');
 const errorHandler = require('./middlewares/errorHandler');
 const session = require('express-session');
 const passport = require('./middlewares/passport');
-const { createClient } = require('redis');
+const redisClient = require('./db/redisClient');
 const RedisStore = require('connect-redis').default
 require('dotenv').config();
+
+const Cart = require('./models/Cart');
 
 const indexRouter = require('./routes/index');
 const authRoutes = require('./routes/authRoutes');
@@ -78,14 +80,6 @@ app.use(helmet.contentSecurityPolicy({
   },
 }));
 
-// ________________ Redis Store ________________
-// Initialize client.
-let redisClient = createClient({
-  url: process.env.REDIS_URL
-});
-
-redisClient.connect().catch(console.error)
-
 // ________________ Express Session ________________
 app.use(session({
   store: new RedisStore({ client: redisClient }),
@@ -115,6 +109,29 @@ app.use((req, res, next) => {
   if (req.isAuthenticated()) {
     res.locals.user = req.user;
     res.locals.isAdmin = req.user.isAdmin;
+  }
+  next();
+})
+
+// ________________ Cart Count Middleware ________________
+app.use(async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    const userId = req.user._id.toString();
+    const cacheKey = `cartItemCount:${userId}`;
+
+    // Check if the cart item count is cached in Redis
+    const cachedItemCount = await redisClient.get(cacheKey);
+    if (cachedItemCount) {
+      res.locals.cartItemCount = parseInt(cachedItemCount, 10);
+    } else {
+      // If not cached, fetch from database
+      const cart = await Cart.findOne({ user: req.user._id });
+      const itemCount = cart ? cart.items.length : 0;
+
+      // Cache it
+      await redisClient.set(cacheKey, itemCount, { EX: 3600}); // Expires after 1 hour
+      res.locals.cartItemCount = parseInt(itemCount, 10);
+    }
   }
   next();
 })
@@ -149,4 +166,4 @@ app.use((req, res, next) => {
 // General Error Handling Middleware
 app.use(errorHandler);
 
-module.exports = app;
+module.exports = { app, redisClient }

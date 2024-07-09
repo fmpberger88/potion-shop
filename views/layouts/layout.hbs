@@ -20,7 +20,12 @@
             {{else}}
                 <a href="/orders"><i class="fa fa-box"></i> Orders</a>
                 <a href="/user"><i class="fa fa-user"></i> Account</a>
-                <a href="/cart"><i class="fa fa-shopping-cart"></i> Cart</a>
+                <a href="/cart" class="cart-link">
+                    <i class="fa fa-shopping-cart"></i> Cart
+                    {{#if cartItemCount}}
+                        <span class="cart-count">{{cartItemCount}}</span>
+                    {{/if}}
+                </a>
                 <a href="/auth/log-out"><i class="fa fa-sign-out-alt"></i> Logout</a>
             {{/unless}}
         </div>
