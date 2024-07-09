@@ -166,4 +166,4 @@ app.use((req, res, next) => {
 // General Error Handling Middleware
 app.use(errorHandler);
 
-module.exports = { app, redisClient }
+module.exports = app
