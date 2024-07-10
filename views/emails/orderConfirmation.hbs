@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #AA210F;
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .content {
+            margin: 20px 0;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .order-details {
+            width: 100%;
+            margin: 20px 0;
+        }
+        .order-details th, .order-details td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .order-details th {
+            background-color: #f4f4f4;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #f4f4f4;
+            color: #333333;
+        }
+        .footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Thank You for Your Order!</h1>
+    </div>
+    <div class="content">
+        <p>Hi {{firstName}},</p>
+        <p>Thank you for your order from Boulder-Fans. We are excited to let you know that your order has been received and is now being processed. Here are the details of your order:</p>
+        <table class="order-details">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each items}}
+                <tr>
+                    <td>{{this.product.name}}</td>
+                    <td>{{this.quantity}}</td>
+                    <td>${{this.product.price}}</td>
+                </tr>
+            {{/each}}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="2">Total</th>
+                <th>${{total}}</th>
+            </tr>
+            </tfoot>
+        </table>
+        <p>If you have any questions about your order, please feel free to contact us at support@boulder-fans.com.</p>
+        <p>We hope you enjoy your new gear!</p>
+        <p>Best regards,<br>The Boulder-Fans Team</p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 Boulder-Fans. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

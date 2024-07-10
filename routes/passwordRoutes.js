@@ -49,7 +49,10 @@ passwordRouter.post('/forgot', csrfProtection, [
 
         // Send email
         const resetLink = `http://${req.headers.host}/password/reset/${user.resetPasswordToken}`;
-        await sendEmail(user.email, 'Password Reset', `Please reset your password by clicking <a href="${resetLink}">here</a>.`);
+        await sendEmail(user.email, 'Password Reset', 'passwordReset', {
+            firstName: user.first_name,
+            resetLink: resetLink
+        });
 
         res.redirect('/auth/log-in');
 

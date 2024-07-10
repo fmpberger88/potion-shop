@@ -91,7 +91,10 @@ authRoutes.post('/sign-up', [
 
         // Send verification email
         const verificationLink = `http://${req.headers.host}/auth/verify-email?token=${user.verificationToken}`;
-        await sendEmail(user.email, 'Email Verification', `Please verify your email by clicking <a href="${verificationLink}">here</a>.`);
+        await sendEmail(user.email, 'Email Verification', 'verifyEmail', {
+            firstName: user.first_name,
+            verificationLink: verificationLink
+        });
 
         res.redirect('/auth/log-in');
     } catch (err) {

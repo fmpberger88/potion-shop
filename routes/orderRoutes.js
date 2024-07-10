@@ -5,6 +5,7 @@ const Product = require('../models/Product');
 const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: false });
+const sendEmail = require('../utils/mailer');
 
 const orderRouter = express.Router();
 
@@ -54,6 +55,14 @@ orderRouter.post('/place', ensureAuthenticated, csrfProtection, async (req, res,
         }
 
         await newOrder.save();
+
+        // Send order confirmation email
+        await sendEmail(req.user.email, 'Your Order Confirmation - Boulder-Fans', 'orderConfirmation', {
+            firstName: req.user.first_name,
+            items: cart.items,
+            total: total
+        });
+
         await Cart.deleteOne({ user: req.user._id });
 
         res.redirect('/orders');

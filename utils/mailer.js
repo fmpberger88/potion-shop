@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const hbs = require('nodemailer-express-handlebars');
+const path = require('path');
 
 let transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
@@ -10,12 +12,30 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-const sendEmail = (to, subject, html) => {
+// Handlebars-Template-Engine für Nodemailer einrichten
+transporter.use('compile', hbs({
+    viewEngine: {
+        extname: '.hbs',
+        layoutsDir: path.join(__dirname, '../views/layouts'),
+        defaultLayout: false,
+        partialsDir: path.join(__dirname, '../views/emails'),
+        helpers: {
+            toFixed: function (number, digits) {
+                return number.toFixed(digits);
+            },
+        }
+    },
+    viewPath: path.join(__dirname, '../views/emails'),
+    extName: '.hbs'
+}));
+
+const sendEmail = (to, subject, template, context) => {
     const mailOptions = {
         from: 'f.m.p.berger@posteo.de',
         to,
         subject,
-        html
+        template, // Name der Vorlage (ohne .hbs)
+        context // Kontextdaten für die Vorlage
     };
 
     return transporter.sendMail(mailOptions);
