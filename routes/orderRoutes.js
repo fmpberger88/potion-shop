@@ -56,10 +56,18 @@ orderRouter.post('/place', ensureAuthenticated, csrfProtection, async (req, res,
 
         await newOrder.save();
 
+        const orderItems = cart.items.map(item => ({
+            name: item.product.name,
+            quantity: item.quantity,
+            price: item.product.price.toFixed(2)
+        }));
+
+        console.log(orderItems)
+
         // Send order confirmation email
         await sendEmail(req.user.email, 'Your Order Confirmation - Boulder-Fans', 'orderConfirmation', {
             firstName: req.user.first_name,
-            items: cart.items,
+            items: orderItems,
             total: total
         });
 
