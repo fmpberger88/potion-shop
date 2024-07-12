@@ -6,6 +6,7 @@ const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: false });
 const sendEmail = require('../utils/mailer');
+const redisClient = require('../db/redisClient');
 
 const orderRouter = express.Router();
 
@@ -72,6 +73,11 @@ orderRouter.post('/place', ensureAuthenticated, csrfProtection, async (req, res,
         });
 
         await Cart.deleteOne({ user: req.user._id });
+
+        // Update Redis Cache
+        const userId = req.user._id;
+        const cacheKey = `cartItemCount:${userId}`;
+        await redisClient.del(cacheKey);
 
         res.redirect('/orders');
     } catch (err) {
