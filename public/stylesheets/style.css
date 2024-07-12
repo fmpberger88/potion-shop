@@ -98,10 +98,8 @@ nav a:visited {
   color: none;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
-
 #logo {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Rage Italic', sans-serif;
   font-size: 2rem;
   color: #87AB0F;
   font-weight: 700;
@@ -146,7 +144,7 @@ nav a:visited {
 
 .hero {
   position: relative;
-  background: url('/images/hero_image.webp') no-repeat center center/cover;
+  background: url('/images/pic.webp') no-repeat center center/cover;
   height: 600px;
   display: flex;
   align-items: center;
