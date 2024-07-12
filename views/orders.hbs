@@ -3,7 +3,7 @@
     <div class="cartList">
         {{#each orders}}
             <div class="cartItem">
-                <h2>Order #{{@index}}</h2>
+                <h2 class="orderTitle">Order #{{@index}}</h2>
                 <p>Status: {{this.status}}</p>
                 <ul class="cartList">
                     {{#each this.items}}
