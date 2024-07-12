@@ -1,9 +1,24 @@
+@font-face {
+  font-family: 'Roboto Regular';
+  src: url("/fonts/Roboto-Regular.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto Bold';
+  src: url("/fonts/Roboto-Bold.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto Black';
+  src: url("/fonts/Roboto-Black.ttf") format('truetype');
+}
+
 :root {
-  --font-family: "Century Gothic", sans-serif;
+  --font-family: "Roboto Regular", sans-serif;
   --background-color: #F2FBFF;
   --link-color: #333;
   --link-hover-color: black;
-  --header-background-color: #C9EFFF;
+  --header-background-color: #F2FBFF;
   --header-text-color: #AA210F;
   --nav-background-color: #EDEFEE;
   --nav-text-color: #EDEFEE;
@@ -13,9 +28,10 @@
   --button-hover-background-color: #D08856;
   --button-text-color: #EDEFEE;
   --button-hover-text-color: black;
-  --footer-background-color: #47D3E6;
+  --footer-background-color: #87AB0F;
   --footer-text-color: black;
 }
+
 
 body {
   font-family: var(--font-family);
@@ -58,6 +74,7 @@ nav {
   flex-wrap: wrap;
   width: 80%;
   gap: 2rem;
+  margin: 2rem 0;
 }
 
 nav a, nav span {
@@ -65,7 +82,7 @@ nav a, nav span {
   font-size: 1.5rem;
   text-decoration: none;
   font-weight: bold;
-  font-family: "Arial Black", sans-serif;
+  font-family: "Roboto Black", sans-serif;
   margin: 0 1rem;
 }
 
@@ -79,6 +96,22 @@ nav a:hover {
 
 nav a:visited {
   color: none;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+#logo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  color: #87AB0F;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: transform 0.3s;
+}
+
+#logo:hover {
+  transform: scale(1.1);
 }
 
 .container {
@@ -137,6 +170,7 @@ nav a:visited {
 .hero h1,
 .hero p,
 .hero a {
+  font-family: "Roboto Thin", sans-serif;
   position: relative;
   z-index: 2;
 }
