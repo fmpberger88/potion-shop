@@ -319,8 +319,9 @@ nav a:visited {
 }
 
 .productFeature img {
-  height: auto;
+  height: 220px;
   max-width: 100%;
+  object-fit: cover;
 }
 
 .productDetailsContainer {
